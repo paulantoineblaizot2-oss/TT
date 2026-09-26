@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion à distance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>PCs Connectés au Réseau</h1>
+        
+        <div id="loading">Chargement...</div>
+        <div id="pcs-list" style="display: none;">
+            <div class="pc-card" id="local-pc">
+                <h3>Mon PC Local</h3>
+                <p><strong>IP:</strong> <span id="local-ip"></span></p>
+                <p><strong>Status:</strong> <span class="status connected">Connecté</span></p>
+                <button onclick="connectToPC('local')">Se connecter</button>
+            </div>
+            
+            <div id="remote-pcs">
+                <!-- Les PC distants seront affichés ici -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loadPCS() {
+            fetch('/api/pcs')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('pcs-list').style.display = 'block';
+                    
+                    const remotePcsContainer = document.getElementById('remote-pcs');
+                    remotePcsContainer.innerHTML = '';
+                    
+                    Object.keys(data.pcs).forEach(pcId => {
+                        const pc = data.pcs[pcId];
+                        
+                        if (pc.name !== "Mon PC Local") {
+                            const pcCard = `
+                                <div class="pc-card">
+                                    <h3>${pc.name}</h3>
+                                    <p><strong>IP:</strong> ${pc.ip}</p>
+                                    <p><strong>Status:</strong> <span class="status connected">Connecté</span></p>
+                                    <button onclick="connectToPC('${pcId}')">Se connecter</button>
+                                </div>
+                            `;
+                            remotePcsContainer.innerHTML += pcCard;
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.getElementById('loading').textContent = 'Erreur de chargement';
+                });
+        }
+
+        function connectToPC(pcId) {
+            if (pcId === 'local') {
+                alert('Connexion au PC local - Utilisez votre outil de connexion préféré');
+            } else {
+                fetch(`/api/connect/${pcId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(`Tentative de connexion à ${data.message}`);
+                    });
+            }
+        }
+
+        // Charger les PC au démarrage
+        loadPCS();
+
+        // Actualiser automatiquement toutes les 30 secondes
+        setInterval(loadPCS, 30000);
+    </script>
+</body>
+</html>
