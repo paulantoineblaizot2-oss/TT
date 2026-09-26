@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès à distance au Bureau</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-desktop"></i> Accès à distance au Bureau</h1>
+            <p class="subtitle">Connectez-vous à votre ordinateur personnel depuis n'importe quel endroit avec cette solution sécurisée d'accès à distance</p>
+        </header>
+        
+        <div class="connection-status connected" id="status">
+            <div class="status-text"><i class="fas fa-check-circle"></i> Connecté au PC distant</div>
+            <div>Votre connexion est active et sécurisée</div>
+        </div>
+        
+        <div class="card-container">
+            <div class="card">
+                <h2><i class="fas fa-user"></i> Détails de connexion</h2>
+                <div class="form-group">
+                    <label for="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur" value="user123">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" placeholder="Entrez votre mot de passe" value="secure_password_456">
+                </div>
+                
+                <div class="form-group">
+                    <label for="host">Adresse IP de l'hôte</label>
+                    <input type="text" id="host" placeholder="192.168.1.100" value="192.168.1.100">
+                </div>
+                
+                <button id="connectBtn"><i class="fas fa-plug"></i> Se connecter au PC</button>
+            </div>
+            
+            <div class="card">
+                <h2><i class="fas fa-shield-alt"></i> Paramètres de sécurité</h2>
+                <div class="form-group">
+                    <label for="encryption">Niveau de chiffrement</label>
+                    <select id="encryption">
+                        <option value="high">Élevé (AES-256)</option>
+                        <option value="medium">M
